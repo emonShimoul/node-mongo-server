@@ -8,15 +8,15 @@ app.use(cors());
 // convert the string data to json
 app.use(express.json());
 
-const users = [
-    {id: 0, name: 'Shabana', email: 'Shabana@gmail.com', phone: '01788888888'},
-    {id: 1, name: 'Shabnoor', email: 'Shabnoor@gmail.com', phone: '01788888888'},
-    {id: 2, name: 'Srabonti', email: 'Srabonti@gmail.com', phone: '01788888888'},
-    {id: 3, name: 'Suchorita', email: 'Suchorita@gmail.com', phone: '01788888888'},
-    {id: 4, name: 'Soniya', email: 'Soniya@gmail.com', phone: '01788888888'},
-    {id: 5, name: 'Sushmita', email: 'Sushmita@gmail.com', phone: '01788888888'},
-    {id: 6, name: 'Monika', email: 'Monika@gmail.com', phone: '01788888888'},
-]
+// const users = [
+//     {id: 0, name: 'Shabana', email: 'Shabana@gmail.com', phone: '01788888888'},
+//     {id: 1, name: 'Shabnoor', email: 'Shabnoor@gmail.com', phone: '01788888888'},
+//     {id: 2, name: 'Srabonti', email: 'Srabonti@gmail.com', phone: '01788888888'},
+//     {id: 3, name: 'Suchorita', email: 'Suchorita@gmail.com', phone: '01788888888'},
+//     {id: 4, name: 'Soniya', email: 'Soniya@gmail.com', phone: '01788888888'},
+//     {id: 5, name: 'Sushmita', email: 'Sushmita@gmail.com', phone: '01788888888'},
+//     {id: 6, name: 'Monika', email: 'Monika@gmail.com', phone: '01788888888'},
+// ]
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://mydbuser1:5GTBgBhpP8tye52q@cluster0.pabg0.mongodb.net/?retryWrites=true&w=majority";
@@ -26,14 +26,14 @@ async function run() {
     try {
       await client.connect();
       const database = client.db("myDb");
-      const userCollection = database.collection("users");
+      const usersCollection = database.collection("users");
 
       console.log("hitting the database");
 
       // POST API
       app.post('/users', async(req, res) => {
           const newUser = req.body;
-          const result = await userCollection.insertOne(newUser);
+          const result = await usersCollection.insertOne(newUser);
           console.log(`A document was inserted with the _id: ${result.insertedId}`);
           console.log(`Got new user: `, req.body);
           console.log(`added user `, result);
@@ -42,8 +42,8 @@ async function run() {
 
       // GET API
       app.get('/users', async(req, res) => {
-          const cursor = userCollection.find({});
-          const users = cursor.toArray();
+          const cursor = usersCollection.find({});
+          const users = await cursor.toArray();
           res.send(users);
       });
 
