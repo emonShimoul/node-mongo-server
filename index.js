@@ -18,7 +18,7 @@ const users = [
     {id: 6, name: 'Monika', email: 'Monika@gmail.com', phone: '01788888888'},
 ]
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://mydbuser1:5GTBgBhpP8tye52q@cluster0.pabg0.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -35,6 +35,8 @@ async function run() {
           const newUser = req.body;
           const result = await userCollection.insertOne(newUser);
           console.log(`A document was inserted with the _id: ${result.insertedId}`);
+          console.log(`Got new user: `, req.body);
+          console.log(`added user `, result);
           res.json(result);
       });
 
@@ -43,7 +45,15 @@ async function run() {
           const cursor = userCollection.find({});
           const users = cursor.toArray();
           res.send(users);
-      })
+      });
+
+    //   app.get('users/:id', async(req, res) => {
+    //       const id = req.params.id;
+    //       const query = { _id:ObjectId(id) };
+    //       const user = await userCollection.findOne(query);
+    //       console.log('load user with id: ', id);
+    //       res.send(user);
+    //   })
 
     } finally {
     //   await client.close();
