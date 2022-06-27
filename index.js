@@ -8,16 +8,6 @@ app.use(cors());
 // convert the string data to json
 app.use(express.json());
 
-// const users = [
-//     {id: 0, name: 'Shabana', email: 'Shabana@gmail.com', phone: '01788888888'},
-//     {id: 1, name: 'Shabnoor', email: 'Shabnoor@gmail.com', phone: '01788888888'},
-//     {id: 2, name: 'Srabonti', email: 'Srabonti@gmail.com', phone: '01788888888'},
-//     {id: 3, name: 'Suchorita', email: 'Suchorita@gmail.com', phone: '01788888888'},
-//     {id: 4, name: 'Soniya', email: 'Soniya@gmail.com', phone: '01788888888'},
-//     {id: 5, name: 'Sushmita', email: 'Sushmita@gmail.com', phone: '01788888888'},
-//     {id: 6, name: 'Monika', email: 'Monika@gmail.com', phone: '01788888888'},
-// ]
-
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://mydbuser1:5GTBgBhpP8tye52q@cluster0.pabg0.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -65,10 +55,6 @@ async function run() {
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-// app.get('/users', (req, res) => {
-//     res.send(users);
-// });
 
 app.listen(port, () => {
     console.log('Listening on port ', port);
