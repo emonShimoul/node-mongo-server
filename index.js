@@ -45,6 +45,14 @@ async function run() {
     //       res.send(user);
     //   })
 
+      // DELETE API
+      app.delete('/users/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = { _id:ObjectId(id) };
+        const result = await usersCollection.deleteOne(query);
+        console.log("successfully deleted user id", id); 
+      })
+
     } finally {
     //   await client.close();
     }
