@@ -37,13 +37,13 @@ async function run() {
           res.send(users);
       });
 
-    //   app.get('users/:id', async(req, res) => {
-    //       const id = req.params.id;
-    //       const query = { _id:ObjectId(id) };
-    //       const user = await userCollection.findOne(query);
-    //       console.log('load user with id: ', id);
-    //       res.send(user);
-    //   })
+      app.get('/users/:id', async(req, res) => {
+          const id = req.params.id;
+          const query = { _id:ObjectId(id) };
+          const user = await usersCollection.findOne(query);
+          console.log('load user with id: ', id);
+          res.send(user);
+      });
 
       // DELETE API
       app.delete('/users/:id', async(req, res) => {
@@ -52,6 +52,24 @@ async function run() {
         const result = await usersCollection.deleteOne(query);
         console.log("successfully deleted user id", result); 
         res.json(result);
+      })
+
+      // UPDATE API
+      app.put('/users/:id', async(req, res) => {
+          console.log(req.params.id);
+          const id = req.params.id;
+          const updatedUser = req.body;
+          const filter = { _id:ObjectId(id) };
+          const options = { upsert: true };
+          const updateDoc = {
+              $set: {
+                  name: updatedUser.name,
+                  email: updatedUser.email
+              },
+          };
+          const result = await usersCollection.updateOne(filter, updateDoc, options);
+        //   console.log('updating user', req);
+          res.json(result);
       })
 
     } finally {
